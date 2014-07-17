@@ -1,12 +1,11 @@
 package controllers
 
 import (
-	"bitbucket.org/kardianos/osext"
+	_ "bitbucket.org/kardianos/osext"
 	"bytes"
 	"fmt"
 	"github.com/revel/revel"
 	"os"
-	"path/filepath"
 	"text/template"
 )
 
@@ -18,14 +17,14 @@ type App struct {
 func (c App) Index() revel.Result {
 	fmt.Println("Begin")
 
-	root_path, err := osext.Executable()
+	root_path, err := os.Getwd()
 	if err != nil {
 		return c.RenderError(err)
 	}
-	template_path := filepath.Join(filepath.Dir(root_path),
-		"templates_test", "app", "views", "templates", "test")
+	template_path := root_path + "/templates_test/app/views/templates/test"
 	text_path := template_path + ".txt"
 
+	fmt.Printf("Root path: %v\n", root_path)
 	fmt.Printf("File path: %v\n", text_path)
 	fmt.Printf("Is file exists: %v\n", exist(text_path))
 
